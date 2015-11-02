@@ -6,6 +6,8 @@ r = 0
 g = 0
 b = 0
 increasing_color = 0
+test_enemy = Enemy(10, 10, 10)
+clock = pygame.time.Clock()
 while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -28,5 +30,8 @@ while not done:
         g -= COLOUR_CHANGE_SPEED
         if b == 100:
             increasing_color = 0
+    enemies.update()
     screen.fill((r + 150, g + 150, b + 150))
+    enemies.draw(screen)
     pygame.display.flip()
+    clock.tick(60)
