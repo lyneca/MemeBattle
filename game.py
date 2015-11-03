@@ -1,12 +1,13 @@
 __author__ = 'wing2048'
 from classes import *
-screen = pygame.display.set_mode((800, 600))
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.SRCALPHA)
 done = False
 r = 0
 g = 0
 b = 0
 increasing_color = 0
 test_enemy = Enemy(10, 10, 10)
+player = Player(50, 50, 10, PLAYER_1_CONTROLS)
 clock = pygame.time.Clock()
 while not done:
     for event in pygame.event.get():
@@ -30,8 +31,14 @@ while not done:
         g -= COLOUR_CHANGE_SPEED
         if b == 100:
             increasing_color = 0
+    pressed = pygame.key.get_pressed()
     enemies.update()
-    screen.fill((r + 150, g + 150, b + 150))
+    players.update(pressed)
+    trans_overlay = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
+    trans_overlay.set_alpha(150)
+    trans_overlay.fill((r + 150, g + 150, b + 150, 0))
+    screen.blit(trans_overlay, (0, 0))
     enemies.draw(screen)
+    players.draw(screen)
     pygame.display.flip()
     clock.tick(60)
